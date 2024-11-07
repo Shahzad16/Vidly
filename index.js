@@ -1,3 +1,4 @@
+const config = require('config');
 const Joi=require('joi');
 Joi.objectId=require('joi-objectid')(Joi);
 const mongoose=require('mongoose');
@@ -10,6 +11,11 @@ const auth = require('./routes/auth');
 const express = require('express');
 const app = express();
 require('dotenv').config()
+
+if (!config.get('jwtPrivateKey')){
+        console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+        process.exit(1);
+}
 
 mongoose.connect(`mongodb+srv://shahzadsaldri:${process.env.PASSWORD}@cluster0.mpzcf.mongodb.net/vidly?retryWrites=true&w=majority&appName=Cluster0`)
         .then(()=>console.log('Connected to MongoDB...'))
