@@ -34,7 +34,7 @@ router.post('/',async(req,res)=>{
     //     email:user.email
     // });
 
-    const token = jwt.sign({_id:user._id}, config.get('jwtPrivateKey'));
+    const token = user.generateAuthToken();
     // using lodash to pick only name and email from user object
     res.header('x-auth-token',token).send(_.pick(user,['id','name','email']));
 });
