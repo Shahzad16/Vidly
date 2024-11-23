@@ -1,4 +1,6 @@
 require('express-async-errors');
+const winston = require('winston');
+require('winston-mongodb');
 const error = require('./middleware/error');
 const config = require('config');
 const Joi=require('joi');
@@ -13,6 +15,15 @@ const auth = require('./routes/auth');
 const express = require('express');
 const app = express();
 require('dotenv').config()
+
+
+winston.add(new winston.transports.File({ filename: 'logfile.log' }));
+
+winston.add(new winston.transports.MongoDB({
+        db: `mongodb+srv://shahzadsaldri:${process.env.PASSWORD}@cluster0.mpzcf.mongodb.net/vidly?retryWrites=true&w=majority&appName=Cluster0`,
+        options: { useUnifiedTopology: true },
+        level: 'error',
+    }));
 
 if (!config.get('jwtPrivateKey')){
         console.error('FATAL ERROR: jwtPrivateKey is not defined.');
