@@ -4,7 +4,7 @@ const app = express();
 const config = require('config');
 require('dotenv').config()
 
-require('./startup/logging');
+require('./startup/logging')();
 require('./startup/routes')(app);
 require('./startup/db')(); // calling a function cause we are returning a function in db.js
 require('./startup/config')();
@@ -34,4 +34,6 @@ if (!config.get('jwtPrivateKey')){
 }
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => winston.info(`Listening on port ${port}...`));
+const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
+
+module.exports = server;
