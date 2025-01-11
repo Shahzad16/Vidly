@@ -9,6 +9,7 @@ require('./startup/routes')(app);
 require('./startup/db')(); // calling a function cause we are returning a function in db.js
 require('./startup/config')();
 require('./startup/validation')();
+require('./startup/prod')(app);
 
 // Uncaught exception logging into mongodb & file
 // process.on('uncaughtException',(ex)=>{
